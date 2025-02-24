@@ -1,7 +1,7 @@
 use std::fmt::Display;
 use std::path::{Path, PathBuf};
 
-use std::os::unix::prelude::FileExt;
+use fs4::FileExt;
 use tempfile::NamedTempFile;
 use tracing::{debug, error, info, trace, warn};
 
@@ -701,7 +701,7 @@ impl LockedFile {
 
 impl Drop for LockedFile {
     fn drop(&mut self) {
-        if let Err(err) = fs2::FileExt::unlock(self.0.file()) {
+        if let Err(err) = fs4::FileExt::unlock(self.0.file()) {
             error!(
                 "Failed to unlock {}; program may be stuck: {}",
                 self.0.path().display(),
